@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Francisco Dutra — AI Automation Engineer & Developer</title>
+  <meta name="description" content="Francisco Dutra — AI Automation Engineer & Developer based in Argentina. I build workflows, agents and data products that actually work." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─────────── tokens ─────────── */
+    :root {
+      --bg: #ffffff;
+      --bg-soft: #fafafa;
+      --fg: #0a0a0a;
+      --fg-2: #404040;
+      --fg-3: #737373;
+      --fg-4: #a3a3a3;
+      --line: #ebebeb;
+      --line-2: #d4d4d4;
+      --accent: #0a0a0a;
+
+      --sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+      --shell: 1040px;
+      --pad-x: clamp(20px, 5vw, 48px);
+      --section-y: clamp(80px, 12vw, 140px);
+
+      --r-sm: 6px;
+      --r-md: 10px;
+      --r-lg: 16px;
+
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) {
+        --bg: #0a0a0a;
+        --bg-soft: #111111;
+        --fg: #fafafa;
+        --fg-2: #d4d4d4;
+        --fg-3: #a3a3a3;
+        --fg-4: #737373;
+        --line: #1f1f1f;
+        --line-2: #2a2a2a;
+        --accent: #fafafa;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #0a0a0a;
+      --bg-soft: #111111;
+      --fg: #fafafa;
+      --fg-2: #d4d4d4;
+      --fg-3: #a3a3a3;
+      --fg-4: #737373;
+      --line: #1f1f1f;
+      --line-2: #2a2a2a;
+      --accent: #fafafa;
+    }
+
+    /* Smooth theme transition */
+    body, .nav, .cta, .stack-cell, .project::before, .tag,
+    .meta-row, .contact__email::after, .cert__mark, .theme-toggle {
+      transition-property: background-color, color, border-color;
+      transition-duration: .35s;
+      transition-timing-function: var(--ease);
+    }
+
+    /* ─────────── theme toggle ─────────── */
+    .theme-toggle {
+      width: 34px;
+      height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      color: var(--fg-3);
+      margin-right: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+    .theme-toggle:hover { color: var(--fg); border-color: var(--line-2); }
+    .theme-toggle svg {
+      width: 15px; height: 15px;
+      position: absolute;
+      transition: transform .5s var(--ease), opacity .35s var(--ease);
+    }
+    .theme-toggle .sun { opacity: 1; transform: rotate(0) scale(1); }
+    .theme-toggle .moon { opacity: 0; transform: rotate(-90deg) scale(.4); }
+    :root[data-theme="dark"] .theme-toggle .sun { opacity: 0; transform: rotate(90deg) scale(.4); }
+    :root[data-theme="dark"] .theme-toggle .moon { opacity: 1; transform: rotate(0) scale(1); }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) .theme-toggle .sun { opacity: 0; transform: rotate(90deg) scale(.4); }
+      :root:not([data-theme]) .theme-toggle .moon { opacity: 1; transform: rotate(0) scale(1); }
+    }
+
+    /* ─────────── lang toggle ─────────── */
+    .lang-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      padding: 3px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      margin-right: 4px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+    }
+    .lang-toggle button {
+      background: transparent;
+      border: 0;
+      color: var(--fg-4);
+      padding: 4px 9px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: color .2s var(--ease), background .25s var(--ease);
+      font: inherit;
+    }
+    .lang-toggle button[aria-pressed="true"] {
+      background: var(--fg);
+      color: var(--bg);
+    }
+    .lang-toggle button:not([aria-pressed="true"]):hover { color: var(--fg); }
+
+    /* ─────────── reset ─────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.55;
+      font-feature-settings: "ss01", "cv11";
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    img, svg { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; }
+    ::selection { background: var(--fg); color: var(--bg); }
+
+    /* ─────────── layout shell ─────────── */
+    .shell {
+      width: 100%;
+      max-width: var(--shell);
+      margin-inline: auto;
+      padding-inline: var(--pad-x);
+    }
+
+    /* ─────────── nav ─────────── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: color-mix(in oklab, var(--bg) 80%, transparent);
+      backdrop-filter: saturate(180%) blur(14px);
+      -webkit-backdrop-filter: saturate(180%) blur(14px);
+      border-bottom: 1px solid transparent;
+      transition: border-color .25s var(--ease);
+    }
+    .nav[data-scrolled="true"] { border-bottom-color: var(--line); }
+    .nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav__brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.02em;
+    }
+    .nav__brand .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--fg);
+      display: inline-block;
+      position: relative;
+    }
+    .nav__brand .dot::after {
+      content: "";
+      position: absolute; inset: -4px;
+      border-radius: 50%;
+      background: var(--fg);
+      opacity: .15;
+      animation: pulse 2.4s var(--ease) infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: .15; }
+      50%      { transform: scale(1.8); opacity: 0; }
+    }
+    .nav__links {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .nav__links a {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      color: var(--fg-3);
+      padding: 8px 10px;
+      border-radius: var(--r-sm);
+      transition: color .2s var(--ease), background .2s var(--ease);
+    }
+    .nav__links a:hover { color: var(--fg); background: var(--bg-soft); }
+    .nav__links a[data-active="true"] { color: var(--fg); }
+    .nav__links a span { color: var(--fg-4); margin-right: 6px; }
+    .nav__links .sep { color: var(--fg-4); user-select: none; padding: 0 2px; }
+    @media (max-width: 720px) {
+      .nav__links a:not(.nav__links .cta) { display: none; }
+      .nav__links .sep { display: none; }
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line-2);
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--mono);
+      font-size: 12.5px;
+      letter-spacing: 0.01em;
+      transition: transform .25s var(--ease), border-color .25s var(--ease), background .25s var(--ease);
+    }
+    .cta:hover { border-color: var(--fg); transform: translateY(-1px); }
+    .cta--primary { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+    .cta--primary:hover { background: var(--fg-2); border-color: var(--fg-2); }
+    .cta svg { width: 14px; height: 14px; }
+
+    /* ─────────── hero ─────────── */
+    .hero {
+      padding-top: clamp(64px, 12vw, 120px);
+      padding-bottom: var(--section-y);
+      position: relative;
+    }
+    .hero__meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      color: var(--fg-3);
+      margin-bottom: 28px;
+    }
+    .hero__meta .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px 4px 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--bg-soft);
+    }
+    .hero__meta .pill .ind {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #16a34a;
+      box-shadow: 0 0 0 0 rgba(22,163,74,.4);
+      animation: blink 2s var(--ease) infinite;
+    }
+    @keyframes blink {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(22,163,74,.4); }
+      50%      { box-shadow: 0 0 0 6px rgba(22,163,74,0); }
+    }
+    .hero h1 {
+      font-size: clamp(48px, 9vw, 112px);
+      font-weight: 500;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      margin: 0 0 28px;
+      text-wrap: balance;
+    }
+    .hero h1 .accent {
+      color: var(--fg-4);
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: -0.03em;
+    }
+    .hero__role {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--fg-3);
+      margin: 0 0 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .hero__role::before {
+      content: "";
+      width: 28px; height: 1px;
+      background: var(--line-2);
+      display: inline-block;
+    }
+    .hero__tagline {
+      font-size: clamp(20px, 2.4vw, 26px);
+      line-height: 1.4;
+      letter-spacing: -0.015em;
+      color: var(--fg-2);
+      max-width: 640px;
+      margin: 0 0 40px;
+      text-wrap: pretty;
+    }
+    .hero__ctas {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .hero__ctas .cta { padding: 12px 18px; font-size: 13px; }
+
+    /* ─────────── section ─────────── */
+    .section { padding-block: var(--section-y); border-top: 1px solid var(--line); }
+    .section__head {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 48px;
+      margin-bottom: 56px;
+      align-items: baseline;
+    }
+    @media (max-width: 720px) {
+      .section__head { grid-template-columns: 1fr; gap: 16px; margin-bottom: 40px; }
+    }
+    .section__label {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--fg-3);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .section__label .num { color: var(--fg-4); }
+    .section__title {
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      font-weight: 500;
+      margin: 0;
+      text-wrap: balance;
+    }
+    .section__title em {
+      color: var(--fg-3);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    /* ─────────── about ─────────── */
+    .about__grid {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 48px;
+    }
+    @media (max-width: 720px) {
+      .about__grid { grid-template-columns: 1fr; gap: 32px; }
+    }
+    .about__meta { display: flex; flex-direction: column; gap: 20px; }
+    .meta-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 4px;
+      padding-bottom: 14px;
+      border-bottom: 1px dashed var(--line);
+    }
+    .meta-row dt {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--fg-4);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .meta-row dd { margin: 0; font-size: 14px; color: var(--fg-2); }
+    .meta-row dd a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+    .about__body p {
+      font-size: 18px;
+      line-height: 1.65;
+      color: var(--fg-2);
+      margin: 0 0 18px;
+      max-width: 60ch;
+      text-wrap: pretty;
+    }
+    .about__body p:last-child { margin-bottom: 0; }
+    .about__body strong { color: var(--fg); font-weight: 500; }
+
+    /* ─────────── stack ─────────── */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+    }
+    @media (max-width: 720px) { .stack-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 460px) { .stack-grid { grid-template-columns: repeat(2, 1fr); } }
+    .stack-cell {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 22px 20px;
+      min-height: 124px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      transition: background .2s var(--ease);
+      gap: 18px;
+    }
+    .stack-cell:hover { background: var(--bg-soft); }
+    .stack-cell svg, .stack-cell .icon-fallback {
+      width: 26px; height: 26px;
+      color: var(--fg);
+    }
+    .stack-cell svg path,
+    .stack-cell svg rect,
+    .stack-cell svg circle,
+    .stack-cell svg polygon { fill: currentColor; }
+    .stack-cell .stack-label {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--fg-2);
+      letter-spacing: 0.01em;
+    }
+    .stack-cell .stack-idx {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      color: var(--fg-4);
+      letter-spacing: 0.04em;
+    }
+
+    /* ─────────── projects ─────────── */
+    .projects { display: flex; flex-direction: column; }
+    .project {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 32px;
+      align-items: start;
+      padding: 32px 0;
+      border-top: 1px solid var(--line);
+      position: relative;
+      transition: padding .35s var(--ease);
+    }
+    .project:last-child { border-bottom: 1px solid var(--line); }
+    .project::before {
+      content: "";
+      position: absolute;
+      inset: 0 -16px;
+      background: var(--bg-soft);
+      border-radius: var(--r-md);
+      opacity: 0;
+      transition: opacity .35s var(--ease);
+      z-index: -1;
+    }
+    .project:hover::before { opacity: 1; }
+    .project:hover { padding-inline: 16px; }
+
+    .project__idx {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--fg-4);
+      letter-spacing: 0.06em;
+      padding-top: 6px;
+    }
+    .project__body { min-width: 0; }
+    .project__title {
+      font-size: clamp(22px, 2.6vw, 28px);
+      letter-spacing: -0.02em;
+      font-weight: 500;
+      margin: 0 0 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .project__title .glyph {
+      display: inline-flex;
+      width: 28px; height: 28px;
+      border: 1px solid var(--line-2);
+      border-radius: var(--r-sm);
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--fg-3);
+      font-weight: 400;
+    }
+    .project__desc {
+      font-size: 15.5px;
+      line-height: 1.55;
+      color: var(--fg-2);
+      margin: 0 0 16px;
+      max-width: 60ch;
+      text-wrap: pretty;
+    }
+    .project__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--fg-3);
+      padding: 3px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--bg);
+      letter-spacing: 0.01em;
+    }
+    .project__action {
+      padding-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--fg-3);
+      transition: color .25s var(--ease), transform .25s var(--ease);
+    }
+    .project:hover .project__action { color: var(--fg); }
+    .project__action svg {
+      width: 14px; height: 14px;
+      transition: transform .35s var(--ease);
+    }
+    .project:hover .project__action svg { transform: translate(2px, -2px); }
+
+    @media (max-width: 720px) {
+      .project { grid-template-columns: 1fr; gap: 14px; padding: 28px 0; }
+      .project__idx { padding-top: 0; }
+      .project__action { padding-top: 0; }
+      .project:hover { padding-inline: 0; }
+      .project::before { inset: 0 -12px; }
+    }
+
+    /* ─────────── certifications ─────────── */
+    .certs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-top: 1px solid var(--line);
+    }
+    @media (max-width: 720px) { .certs { grid-template-columns: 1fr; } }
+    .cert {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 20px;
+      align-items: center;
+      padding: 24px 24px 24px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .cert + .cert { border-left: 1px solid var(--line); padding-left: 24px; }
+    @media (max-width: 720px) {
+      .cert + .cert { border-left: none; padding-left: 0; }
+      .cert { padding-right: 0; }
+    }
+    .cert__year {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--fg-4);
+      letter-spacing: 0.04em;
+    }
+    .cert__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .cert__title { font-size: 16px; font-weight: 500; letter-spacing: -0.01em; }
+    .cert__issuer { font-family: var(--mono); font-size: 12px; color: var(--fg-3); }
+    .cert__mark {
+      width: 28px; height: 28px;
+      border: 1px solid var(--line-2);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--fg-3);
+    }
+    .cert__mark svg { width: 12px; height: 12px; }
+
+    /* ─────────── contact ─────────── */
+    .contact { padding-block: var(--section-y); border-top: 1px solid var(--line); }
+    .contact__lead {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--fg-3);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .contact__email {
+      display: inline-block;
+      font-size: clamp(36px, 7vw, 80px);
+      letter-spacing: -0.035em;
+      font-weight: 500;
+      line-height: 1;
+      color: var(--fg);
+      position: relative;
+      transition: opacity .25s var(--ease);
+    }
+    .contact__email::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: -6px;
+      height: 1px;
+      background: var(--fg);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .5s var(--ease);
+    }
+    .contact__email:hover::after { transform: scaleX(1); }
+    .contact__email .arrow {
+      display: inline-block;
+      transition: transform .35s var(--ease);
+      color: var(--fg-3);
+      margin-left: 12px;
+      font-weight: 300;
+    }
+    .contact__email:hover .arrow { transform: translate(8px, -8px); color: var(--fg); }
+
+    .contact__row {
+      margin-top: 56px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      border-top: 1px solid var(--line);
+      padding-top: 32px;
+    }
+    @media (max-width: 720px) { .contact__row { grid-template-columns: 1fr; gap: 0; } }
+    .contact__item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-right: 24px;
+    }
+    @media (max-width: 720px) {
+      .contact__item { padding: 18px 0; border-bottom: 1px dashed var(--line); }
+      .contact__item:last-child { border-bottom: none; }
+    }
+    .contact__item .key {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fg-4);
+    }
+    .contact__item .val {
+      font-size: 16px;
+      letter-spacing: -0.01em;
+      color: var(--fg);
+      transition: color .2s var(--ease);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .contact__item a.val:hover { color: var(--fg-3); }
+    .contact__item .val svg { width: 12px; height: 12px; opacity: .5; }
+
+    /* ─────────── footer ─────────── */
+    .footer {
+      border-top: 1px solid var(--line);
+      padding-block: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: var(--fg-4);
+      letter-spacing: 0.02em;
+    }
+    .footer a:hover { color: var(--fg-2); }
+
+    /* ─────────── reveal anim ─────────── */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .8s var(--ease), transform .8s var(--ease);
+    }
+    [data-reveal].in {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body data-screen-label="Portfolio">
+
+  <!-- ─────────── NAV ─────────── -->
+  <header class="nav" id="nav">
+    <div class="shell nav__inner">
+      <a href="#top" class="nav__brand" aria-label="Francisco Dutra — home">
+        <span class="dot" aria-hidden="true"></span>
+        <span>fdutra</span>
+      </a>
+      <nav class="nav__links" aria-label="Primary">
+        <a href="#about" data-nav data-i18n="nav.about"><span>01</span>About</a>
+        <a href="#stack" data-nav data-i18n="nav.stack"><span>02</span>Stack</a>
+        <a href="#projects" data-nav data-i18n="nav.projects"><span>03</span>Projects</a>
+        <a href="#certifications" data-nav data-i18n="nav.certs"><span>04</span>Certs</a>
+        <span class="sep">·</span>
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" data-lang-btn="en" aria-pressed="true">EN</button>
+          <button type="button" data-lang-btn="es" aria-pressed="false">ES</button>
+        </div>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" title="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+        </button>
+        <a class="cta" href="#contact">
+          <span data-i18n="nav.contact">Contact</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ─────────── HERO ─────────── -->
+    <section class="hero shell" aria-label="Introduction">
+      <div class="hero__meta" data-reveal>
+        <span class="pill"><span class="ind" aria-hidden="true"></span> <span data-i18n="hero.remote">Open to remote roles</span></span>
+        <span>·</span>
+        <span data-i18n="hero.location">Buenos Aires, AR — UTC−3</span>
+      </div>
+      <h1 data-reveal>
+        Francisco <br />
+        Dutra<span class="accent">.</span>
+      </h1>
+      <p class="hero__role" data-reveal data-i18n="hero.role">AI Automation Engineer &amp; Developer</p>
+      <p class="hero__tagline" data-reveal data-i18n="hero.tagline">
+        I build workflows, agents and data products that actually work — pragmatic AI that ships, not demos that don't.
+      </p>
+      <div class="hero__ctas" data-reveal>
+        <a class="cta cta--primary" href="https://github.com/frandutra" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56 0-.27-.01-1-.02-1.96-3.2.69-3.88-1.54-3.88-1.54-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.69.08-.69 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.58.24 2.75.12 3.04.73.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.41-5.25 5.69.41.36.78 1.06.78 2.13 0 1.54-.01 2.78-.01 3.16 0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5Z"/></svg>
+          GitHub
+        </a>
+        <a class="cta" href="#contact">
+          <span data-i18n="hero.cta.contact">Contact me</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ─────────── ABOUT ─────────── -->
+    <section class="section shell" id="about" data-screen-label="About">
+      <div class="section__head" data-reveal>
+        <div class="section__label"><span class="num">01</span> <span data-i18n="about.label">About</span></div>
+        <h2 class="section__title" data-i18n-html="about.title">Engineer first, <em>AI-native by practice.</em></h2>
+      </div>
+
+      <div class="about__grid">
+        <dl class="about__meta" data-reveal>
+          <div class="meta-row">
+            <dt data-i18n="about.meta.currently">Currently</dt>
+            <dd data-i18n="about.meta.currently.v">Bantotal — Banking Systems</dd>
+          </div>
+          <div class="meta-row">
+            <dt data-i18n="about.meta.education">Education</dt>
+            <dd data-i18n="about.meta.education.v">Information Systems Eng., UTN</dd>
+          </div>
+          <div class="meta-row">
+            <dt data-i18n="about.meta.focus">Focus</dt>
+            <dd data-i18n="about.meta.focus.v">AI automation · Data products</dd>
+          </div>
+          <div class="meta-row">
+            <dt data-i18n="about.meta.based">Based</dt>
+            <dd data-i18n="about.meta.based.v">Argentina · Remote-ready</dd>
+          </div>
+        </dl>
+
+        <div class="about__body" data-reveal>
+          <p data-i18n-html="about.p1">
+            I'm an <strong>Information Systems Engineer</strong> from UTN with <strong>2+ years at Bantotal</strong>
+            working on production banking systems — the kind of environment where reliability is the feature
+            and "it works on my machine" doesn't pay the bills.
+          </p>
+          <p data-i18n-html="about.p2">
+            Outside the day job I build with Python: NLP recommenders, ML pipelines, self-hosted automation,
+            and small LLM-powered tools that quietly remove friction from everyday workflows. I'm drawn to
+            the messy middle — connecting models, data and humans into something that ships.
+          </p>
+          <p data-i18n-html="about.p3">
+            Open to remote roles where the work is honest and the systems are real.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── STACK ─────────── -->
+    <section class="section shell" id="stack" data-screen-label="Stack">
+      <div class="section__head" data-reveal>
+        <div class="section__label"><span class="num">02</span> <span data-i18n="stack.label">Stack</span></div>
+        <h2 class="section__title" data-i18n-html="stack.title">Tools I reach for <em>without thinking.</em></h2>
+      </div>
+
+      <div class="stack-grid" data-reveal>
+        <!-- 01 Python -->
+        <div class="stack-cell">
+          <span class="stack-idx">01</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.91 0c-1.06.005-2.07.097-2.96.252C6.32.71 5.85 1.67 5.85 3.44v2.32h6.18v.78H3.55c-1.79 0-3.36 1.08-3.85 3.12-.57 2.34-.59 3.8 0 6.25.44 1.82 1.49 3.12 3.28 3.12h2.13v-2.78c0-2.04 1.76-3.83 3.85-3.83h6.18c1.71 0 3.07-1.41 3.07-3.13V3.44C18.21 1.77 16.81.51 15.13.25c-1.06-.17-2.16-.25-3.22-.25zM8.6 1.89a1.15 1.15 0 0 1 .82 1.97 1.15 1.15 0 1 1-.82-1.97z"/><path d="M19.04 6.54v2.71c0 2.13-1.8 3.92-3.85 3.92H8.92c-1.66 0-3.06 1.42-3.06 3.13v5.86c0 1.67 1.45 2.65 3.06 3.13 1.93.57 3.78.67 5.99 0 1.54-.45 3.06-1.36 3.06-3.13v-2.32h-6.17v-.78h9.26c1.79 0 2.46-1.25 3.07-3.12.64-1.92.62-3.77 0-6.25-.45-1.78-1.28-3.13-3.07-3.13h-2.02zm-3.48 14.42a1.15 1.15 0 1 1-.001 2.302 1.15 1.15 0 0 1 .001-2.302z"/></svg>
+          <span class="stack-label">Python</span>
+        </div>
+        <!-- 02 PostgreSQL -->
+        <div class="stack-cell">
+          <span class="stack-idx">02</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-9 9v.5C3 17.7 7.3 22 12.5 22c1.5 0 3-.4 4.3-1.1l-1-1.7c-1 .6-2.1.8-3.3.8-4.1 0-7.5-3.4-7.5-7.5S8.4 5 12.5 5c4.1 0 7.5 3.4 7.5 7.5 0 1.3-.3 2.5-1 3.6l1.7 1A9.4 9.4 0 0 0 22 12c0-5-4-9-9-9z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span class="stack-label">PostgreSQL</span>
+        </div>
+        <!-- 03 Docker -->
+        <div class="stack-cell">
+          <span class="stack-idx">03</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="11" width="3" height="3"/><rect x="6" y="11" width="3" height="3"/><rect x="10" y="11" width="3" height="3"/><rect x="14" y="11" width="3" height="3"/><rect x="6" y="7" width="3" height="3"/><rect x="10" y="7" width="3" height="3"/><rect x="14" y="7" width="3" height="3"/><rect x="10" y="3" width="3" height="3"/><path d="M22 12c-.5-1-1.5-1-2-1-.3 0-.8.1-1 .3-.4-1.6-2-2.4-2-2.4l-.4.5c-.5.6-.7 1.6-.6 2.3.1.4.2.7.4 1-.6.3-1.6.4-3.4.4H2c-.2 1.6.1 6 4.3 7.4 1.5.5 3 .6 4.4.6 6.1 0 10.7-3 12.8-8.5.3 0 .9 0 1.3-.8.1-.2.4-.7-.4-1.3"/></svg>
+          <span class="stack-label">Docker</span>
+        </div>
+        <!-- 04 n8n -->
+        <div class="stack-cell">
+          <span class="stack-idx">04</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="3" cy="12" r="2"/><circle cx="12" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><circle cx="21" cy="12" r="2"/><path d="M5 12h5M14 6h5M14 18h5M10 12h4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+          <span class="stack-label">n8n</span>
+        </div>
+        <!-- 05 Vercel -->
+        <div class="stack-cell">
+          <span class="stack-idx">05</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12,3 22,21 2,21"/></svg>
+          <span class="stack-label">Vercel</span>
+        </div>
+        <!-- 06 Streamlit -->
+        <div class="stack-cell">
+          <span class="stack-idx">06</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 8c4 0 6 2 10 2s6-2 10-2l-6 9c-1 1.5-3 3-4 3s-3-1.5-4-3L2 8z"/></svg>
+          <span class="stack-label">Streamlit</span>
+        </div>
+        <!-- 07 Scikit-learn -->
+        <div class="stack-cell">
+          <span class="stack-idx">07</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M6 6l6 6 6-6M6 18l6-6 6 6" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
+          <span class="stack-label">Scikit-learn</span>
+        </div>
+        <!-- 08 Gemini -->
+        <div class="stack-cell">
+          <span class="stack-idx">08</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c0 4.5 3.5 8 8 10-4.5 0-8 3.5-10 8 0-4.5-3.5-8-8-10 4.5 0 8-3.5 10-8z"/></svg>
+          <span class="stack-label">Gemini API</span>
+        </div>
+        <!-- 09 Claude -->
+        <div class="stack-cell">
+          <span class="stack-idx">09</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>
+          <span class="stack-label">Claude API</span>
+        </div>
+        <!-- 10 SQL Server -->
+        <div class="stack-cell">
+          <span class="stack-idx">10</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="2.5"/><path d="M4 5v6c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5V5"/><path d="M4 11v6c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5v-6"/></svg>
+          <span class="stack-label">SQL Server</span>
+        </div>
+        <!-- 11 Selenium -->
+        <div class="stack-cell">
+          <span class="stack-idx">11</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14l-2.5 5H9l1.5 4H17l-2 6h-4l1-3H7l4-12z"/></svg>
+          <span class="stack-label">Selenium</span>
+        </div>
+        <!-- 12 Git -->
+        <div class="stack-cell">
+          <span class="stack-idx">12</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="2.2"/><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="12" r="2.2"/><path d="M6 8v8M8 6h6a4 4 0 0 1 4 4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
+          <span class="stack-label">Git</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── PROJECTS ─────────── -->
+    <section class="section shell" id="projects" data-screen-label="Projects">
+      <div class="section__head" data-reveal>
+        <div class="section__label"><span class="num">03</span> <span data-i18n="projects.label">Selected work</span></div>
+        <h2 class="section__title" data-i18n-html="projects.title">Small things, <em>built end-to-end.</em></h2>
+      </div>
+
+      <div class="projects" data-reveal>
+
+        <a class="project" href="https://github.com/frandutra" target="_blank" rel="noopener" data-screen-label="Project / SteamNext">
+          <span class="project__idx">P—01</span>
+          <div class="project__body">
+            <h3 class="project__title">
+              <span class="glyph">S</span>
+              SteamNext
+            </h3>
+            <p class="project__desc" data-i18n="project.steamnext.desc">
+              NLP-powered game recommender that suggests what to play next from a corpus of Steam titles
+              using Cosine Similarity over content embeddings. Wrapped in a Streamlit interface.
+            </p>
+            <div class="project__tags">
+              <span class="tag">NLP</span>
+              <span class="tag">Python</span>
+              <span class="tag">Streamlit</span>
+            </div>
+          </div>
+          <span class="project__action">
+            View
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+          </span>
+        </a>
+
+        <a class="project" href="https://github.com/frandutra" target="_blank" rel="noopener" data-screen-label="Project / F1-Oracle">
+          <span class="project__idx">P—02</span>
+          <div class="project__body">
+            <h3 class="project__title">
+              <span class="glyph">F</span>
+              F1-Oracle
+            </h3>
+            <p class="project__desc" data-i18n="project.f1oracle.desc">
+              Machine learning model that predicts Formula 1 race results from historical data — drivers,
+              circuits, qualifying and weather features piped through a scikit-learn ensemble.
+            </p>
+            <div class="project__tags">
+              <span class="tag">Machine Learning</span>
+              <span class="tag">Scikit-learn</span>
+              <span class="tag">Python</span>
+            </div>
+          </div>
+          <span class="project__action">
+            View
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+          </span>
+        </a>
+
+        <a class="project" href="https://github.com/frandutra" target="_blank" rel="noopener" data-screen-label="Project / Telegram Expense Bot">
+          <span class="project__idx">P—03</span>
+          <div class="project__body">
+            <h3 class="project__title">
+              <span class="glyph">T</span>
+              Telegram Expense Bot
+            </h3>
+            <p class="project__desc" data-i18n="project.expensebot.desc">
+              Self-hosted personal finance bot. Send a sentence in natural language ("12k coffee groceries"),
+              Gemini parses it, n8n orchestrates the workflow, the entry lands in a database — all in Docker.
+            </p>
+            <div class="project__tags">
+              <span class="tag">n8n</span>
+              <span class="tag">Automation</span>
+              <span class="tag">Gemini API</span>
+              <span class="tag">Docker</span>
+            </div>
+          </div>
+          <span class="project__action">
+            View
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+          </span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ─────────── CERTIFICATIONS ─────────── -->
+    <section class="section shell" id="certifications" data-screen-label="Certifications">
+      <div class="section__head" data-reveal>
+        <div class="section__label"><span class="num">04</span> <span data-i18n="certs.label">Certifications</span></div>
+        <h2 class="section__title" data-i18n-html="certs.title">Recent <em>study.</em></h2>
+      </div>
+
+      <div class="certs" data-reveal>
+        <div class="cert">
+          <span class="cert__year">2026</span>
+          <div class="cert__body">
+            <span class="cert__title">Claude Code in Action</span>
+            <span class="cert__issuer">Anthropic</span>
+          </div>
+          <span class="cert__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
+          </span>
+        </div>
+
+        <div class="cert">
+          <span class="cert__year">2025</span>
+          <div class="cert__body">
+            <span class="cert__title">Python for Data Science</span>
+            <span class="cert__issuer">IBM · Coursera</span>
+          </div>
+          <span class="cert__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── CONTACT ─────────── -->
+    <section class="contact shell" id="contact" data-screen-label="Contact">
+      <p class="contact__lead" data-reveal data-i18n="contact.lead">— Get in touch</p>
+      <a class="contact__email" href="mailto:fdutra2001@gmail.com" data-reveal>
+        fdutra2001@gmail.com<span class="arrow">↗</span>
+      </a>
+
+      <div class="contact__row" data-reveal>
+        <div class="contact__item">
+          <span class="key">GitHub</span>
+          <a class="val" href="https://github.com/frandutra" target="_blank" rel="noopener">
+            github.com/frandutra
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+          </a>
+        </div>
+        <div class="contact__item">
+          <span class="key">LinkedIn</span>
+          <a class="val" href="https://linkedin.com/in/frandutra" target="_blank" rel="noopener">
+            in/frandutra
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+          </a>
+        </div>
+        <div class="contact__item">
+          <span class="key" data-i18n="contact.location">Location</span>
+          <span class="val" data-i18n="contact.location.v">Argentina · UTC−3</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer shell">
+    <span data-i18n-html="footer.copy">© <span id="year">2026</span> Francisco Dutra — All rights reserved.</span>
+    <span data-i18n="footer.built">Designed &amp; built with care · Hosted on Vercel</span>
+  </footer>
+
+  <script>
+    // theme toggle (set early to avoid flash; persisted in localStorage)
+    (function initTheme(){
+      try {
+        const saved = localStorage.getItem('fd-theme');
+        if (saved === 'dark' || saved === 'light') {
+          document.documentElement.setAttribute('data-theme', saved);
+        }
+      } catch (e) {}
+    })();
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const root = document.documentElement;
+      const current = root.getAttribute('data-theme')
+        || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      const next = current === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('fd-theme', next); } catch (e) {}
+    });
+
+    // ─────────── i18n ───────────
+    const I18N = {
+      en: {
+        "nav.about": "About",
+        "nav.stack": "Stack",
+        "nav.projects": "Projects",
+        "nav.certs": "Certs",
+        "nav.contact": "Contact",
+        "hero.remote": "Open to remote roles",
+        "hero.location": "Buenos Aires, AR — UTC−3",
+        "hero.role": "AI Automation Engineer & Developer",
+        "hero.tagline": "I build workflows, agents and data products that actually work — pragmatic AI that ships, not demos that don't.",
+        "hero.cta.contact": "Contact me",
+        "about.label": "About",
+        "about.title": "Engineer first, <em>AI-native by practice.</em>",
+        "about.meta.currently": "Currently",
+        "about.meta.currently.v": "Bantotal — Banking Systems",
+        "about.meta.education": "Education",
+        "about.meta.education.v": "Information Systems Eng., UTN",
+        "about.meta.focus": "Focus",
+        "about.meta.focus.v": "AI automation · Data products",
+        "about.meta.based": "Based",
+        "about.meta.based.v": "Argentina · Remote-ready",
+        "about.p1": "I'm an <strong>Information Systems Engineer</strong> from UTN with <strong>2+ years at Bantotal</strong> working on production banking systems — the kind of environment where reliability is the feature and \"it works on my machine\" doesn't pay the bills.",
+        "about.p2": "Outside the day job I build with Python: NLP recommenders, ML pipelines, self-hosted automation, and small LLM-powered tools that quietly remove friction from everyday workflows. I'm drawn to the messy middle — connecting models, data and humans into something that ships.",
+        "about.p3": "Open to remote roles where the work is honest and the systems are real.",
+        "stack.label": "Stack",
+        "stack.title": "Tools I reach for <em>without thinking.</em>",
+        "projects.label": "Selected work",
+        "projects.title": "Small things, <em>built end-to-end.</em>",
+        "project.steamnext.desc": "NLP-powered game recommender that suggests what to play next from a corpus of Steam titles using Cosine Similarity over content embeddings. Wrapped in a Streamlit interface.",
+        "project.f1oracle.desc": "Machine learning model that predicts Formula 1 race results from historical data — drivers, circuits, qualifying and weather features piped through a scikit-learn ensemble.",
+        "project.expensebot.desc": "Self-hosted personal finance bot. Send a sentence in natural language (\"12k coffee groceries\"), Gemini parses it, n8n orchestrates the workflow, the entry lands in a database — all in Docker.",
+        "project.view": "View",
+        "certs.label": "Certifications",
+        "certs.title": "Recent <em>study.</em>",
+        "contact.lead": "— Get in touch",
+        "contact.location": "Location",
+        "contact.location.v": "Argentina · UTC−3",
+        "footer.copy": "© <span id=\"year\">2026</span> Francisco Dutra — All rights reserved.",
+        "footer.built": "Designed & built with care · Hosted on Vercel"
+      },
+      es: {
+        "nav.about": "Sobre mí",
+        "nav.stack": "Stack",
+        "nav.projects": "Proyectos",
+        "nav.certs": "Certs.",
+        "nav.contact": "Contacto",
+        "hero.remote": "Abierto a trabajo remoto",
+        "hero.location": "Buenos Aires, AR — UTC−3",
+        "hero.role": "Ingeniero de Automatización con IA & Desarrollador",
+        "hero.tagline": "Construyo workflows, agentes y productos de datos que de verdad funcionan — IA pragmática que llega a producción, no demos que se quedan en el cajón.",
+        "hero.cta.contact": "Contactame",
+        "about.label": "Sobre mí",
+        "about.title": "Ingeniero primero, <em>IA por práctica.</em>",
+        "about.meta.currently": "Actualmente",
+        "about.meta.currently.v": "Bantotal — Sistemas Bancarios",
+        "about.meta.education": "Formación",
+        "about.meta.education.v": "Ing. en Sistemas de Información, UTN",
+        "about.meta.focus": "Foco",
+        "about.meta.focus.v": "Automatización con IA · Productos de datos",
+        "about.meta.based": "Ubicación",
+        "about.meta.based.v": "Argentina · Listo para remoto",
+        "about.p1": "Soy <strong>Ingeniero en Sistemas de Información</strong> por la UTN, con <strong>más de 2 años en Bantotal</strong> trabajando en sistemas bancarios en producción — un entorno donde la confiabilidad es la feature y el \"funciona en mi máquina\" no paga las cuentas.",
+        "about.p2": "Fuera del trabajo construyo con Python: recomendadores con NLP, pipelines de ML, automatizaciones autohospedadas, y pequeñas herramientas con LLMs que sacan fricción de los flujos del día a día. Me atrae el medio caótico: conectar modelos, datos y personas en algo que se pueda usar.",
+        "about.p3": "Abierto a roles remotos donde el trabajo sea honesto y los sistemas, reales.",
+        "stack.label": "Stack",
+        "stack.title": "Herramientas que uso <em>sin pensarlo.</em>",
+        "projects.label": "Trabajo seleccionado",
+        "projects.title": "Cosas pequeñas, <em>hechas de punta a punta.</em>",
+        "project.steamnext.desc": "Recomendador de videojuegos con NLP que sugiere qué jugar a continuación a partir de un corpus de Steam, usando Similitud Coseno sobre embeddings de contenido. Empaquetado en una interfaz Streamlit.",
+        "project.f1oracle.desc": "Modelo de machine learning que predice resultados de carreras de Fórmula 1 a partir de datos históricos — pilotos, circuitos, clasificación y clima, procesados con un ensemble de scikit-learn.",
+        "project.expensebot.desc": "Bot autohospedado de finanzas personales. Mandás una frase en lenguaje natural (\"12k café super\"), Gemini la parsea, n8n orquesta el flujo y el gasto queda guardado en la base — todo dockerizado.",
+        "project.view": "Ver",
+        "certs.label": "Certificaciones",
+        "certs.title": "Estudio <em>reciente.</em>",
+        "contact.lead": "— Hablemos",
+        "contact.location": "Ubicación",
+        "contact.location.v": "Argentina · UTC−3",
+        "footer.copy": "© <span id=\"year\">2026</span> Francisco Dutra — Todos los derechos reservados.",
+        "footer.built": "Diseñado y construido con cariño · Hospedado en Vercel"
+      }
+    };
+
+    function applyLang(lang) {
+      const dict = I18N[lang] || I18N.en;
+      document.documentElement.setAttribute('lang', lang);
+      // text nodes
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key] !== undefined) el.textContent = dict[key];
+      });
+      // html nodes (preserve inline tags like <em>, <strong>)
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        if (dict[key] !== undefined) el.innerHTML = dict[key];
+      });
+      // "View" labels on project cards (special case — they're not tagged individually)
+      document.querySelectorAll('.project__action').forEach(el => {
+        // first text node only
+        for (const node of el.childNodes) {
+          if (node.nodeType === 3 && node.textContent.trim()) {
+            node.textContent = dict['project.view'] || 'View';
+            return;
+          }
+        }
+      });
+      // year span (gets overwritten by innerHTML on footer.copy)
+      const yearEl = document.getElementById('year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+      // toggle button state
+      document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+        btn.setAttribute('aria-pressed', String(btn.getAttribute('data-lang-btn') === lang));
+      });
+      try { localStorage.setItem('fd-lang', lang); } catch (e) {}
+    }
+
+    // initial language: saved → browser → 'en'
+    (function initLang(){
+      let saved = null;
+      try { saved = localStorage.getItem('fd-lang'); } catch (e) {}
+      const browser = (navigator.language || 'en').slice(0, 2).toLowerCase();
+      const initial = (saved === 'es' || saved === 'en')
+        ? saved
+        : (browser === 'es' ? 'es' : 'en');
+      applyLang(initial);
+    })();
+
+    document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+      btn.addEventListener('click', () => applyLang(btn.getAttribute('data-lang-btn')));
+    });
+
+    // year (also set on initial load — applyLang resets it too)
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // nav scroll state
+    const nav = document.getElementById('nav');
+    const onScroll = () => nav.dataset.scrolled = String(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // reveal on scroll — with safety net so above-the-fold never sticks at opacity 0
+    const revealEls = document.querySelectorAll('[data-reveal]');
+    const reveal = (el) => el.classList.add('in');
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            reveal(e.target);
+            io.unobserve(e.target);
+          }
+        }
+      }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(el => io.observe(el));
+
+      // Immediate pass: anything already in viewport reveals now (IO can skip the first tick in iframes)
+      requestAnimationFrame(() => {
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        revealEls.forEach(el => {
+          const r = el.getBoundingClientRect();
+          if (r.top < vh && r.bottom > 0) { reveal(el); io.unobserve(el); }
+        });
+      });
+
+      // Final fallback: never leave content invisible
+      setTimeout(() => revealEls.forEach(reveal), 600);
+    } else {
+      revealEls.forEach(reveal);
+    }
+
+    // scroll-spy for nav
+    const sections = ['about','stack','projects','certifications','contact']
+      .map(id => document.getElementById(id))
+      .filter(Boolean);
+    const navLinks = document.querySelectorAll('.nav__links a[data-nav]');
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navLinks.forEach(a => {
+            a.dataset.active = String(a.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+    sections.forEach(s => spy.observe(s));
+  </script>
+
+</body>
+</html>
